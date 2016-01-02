@@ -166,11 +166,13 @@ class Account(models.Model):
     country = models.CharField('Country', max_length=100, choices=COUNTRY)
     shipping_address = models.CharField('Shipping Address', max_length=50)
 
+
 class Task(models.Model):
 
     PRIORITY = (
         ('--None--', '--None--'),
         ('High', 'High'),
+        ('Medium', 'Medium'),
         ('Low', 'Low')
     )
 
@@ -187,3 +189,95 @@ class Task(models.Model):
     comment = models.CharField('Comments', max_length=200)
     priority = models.CharField('Priority', max_length=50, choices=PRIORITY)
     status = models.CharField('Status', max_length=50, choices=STATUS)
+
+class Contact(models.Model):
+    SALUTATION = (
+        ('--None--', '--None--'),
+        ('Mr', 'Mr'),
+        ('Ms', 'Ms'),
+        ('Mrs', 'Mrs'),
+        ('Miss', 'Miss'),
+        ('Prof', 'Prof'),
+        ('Dr', 'Dr'),
+    )
+
+    COUNTRY = (
+        ('--None--', '--None--'),
+        ('Algeria', 'Algeria'),
+        ('Uganda', 'Uganda'),
+    )
+
+    first_name = models.CharField('First Name', max_length=100, blank=False, null=False)
+    middle_name = models.CharField('Middle Name', max_length=100, blank=True, null=True)
+    last_name = models.CharField('Last Name', max_length=100, blank=False, null=False)
+    account_name = models.CharField('Account Name', max_length=100)
+    contact_owner = models.CharField('Contact Owner', max_length=100)
+    report_to = models.CharField('Reports To', max_length=100)
+    title = models.CharField('Title', max_length=50)
+    department = models.CharField('Department', max_length=50)
+    email = models.EmailField('Email Address')
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: "
+                                                                   "'+999999999'. Up to 15 digits allowed.")
+    mobile_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: "
+                                                                    "'+999999999'. Up to 15 digits allowed.")
+    phone_number = models.CharField('Phone Number', validators=[phone_regex], blank=True) # validators should be a list
+    mobile = models.CharField('Mobile Number', validators=[mobile_regex], blank=True)
+    street = models.CharField('Street', max_length=50)
+    city = models.CharField('City', max_length=50)
+    state = models.CharField('State', max_length=50,null=True, blank=True)
+    postal_code = models.CharField('Postal Code', max_length=50)
+    country = models.CharField('Country', max_length=100, choices=COUNTRY)
+
+class case(models.Model):
+    STATUS = (
+        ('--None--', '--None--'),
+        ('New', 'New'),
+        ('Closed', 'Closed'),
+        ('On Hold', 'On Hold'),
+        ('Escalated', 'Escalated'),
+    )
+
+    TYPE = (
+        ('--None', 'None'),
+        ('Problem', 'Problem'),
+        ('Question', 'Question'),
+        ('Feature Request', 'Feature Request'),
+    )
+
+    ORIGIN = (
+        ('--None--', '--None--'),
+        ('Email', 'Email'),
+        ('Phone Call', 'Phone Call'),
+        ('Web', 'Web'),
+    )
+
+    REASON = (
+        ('--None--', '--None--'),
+        ('User Did not attend training', 'User Did not attend training'),
+        ('Complex Functionality', 'Complex Functionality'),
+        ('New Problem', 'New Problem'),
+        ('Existing Problem', 'Existing Problem'),
+        ('Instructions Not Clear', 'Instructions Not Clear'),
+    )
+
+    PRIORITY = (
+        ('--None--', '--None--'),
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('Low', 'Low')
+    )
+    case_owner = models.CharField('Case Owner', max_length=100)
+    contact_name = models.CharField('Contact Name', max_length=100)
+    account_name = models.CharField('Account Name', max_length=100)
+    status = models.CharField('Case Status', max_length=50, choices=STATUS)
+    type = models.CharField('Case Type', max_length=50, choices=TYPE)
+    case_origin = models.CharField('Case Origin', max_length=50, choices=ORIGIN)
+    case_reason = models.CharField('Case Reason', max_length=50, choices=REASON)
+    priority = models.CharField('Priority', max_length=50, choices=PRIORITY)
+    subject = models.CharField('Subject', max_length=100)
+    description = models.CharField('Description', max_length=200)
+    email = models.EmailField('Email Address')
+    company = models.CharField('Company', max_length=50)
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: "
+                                                                   "'+999999999'. Up to 15 digits allowed.")
+    phone_number = models.CharField('Phone Number', validators=[phone_regex], blank=True)
