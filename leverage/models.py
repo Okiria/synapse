@@ -51,6 +51,10 @@ class Opportunity(models.Model):
     lead_source = models.CharField('Lead Source', max_length=20, choices=SOURCE)
     description = models.CharField('Opportunity Description', max_length=200)
 
+    class Meta:
+        db_table = 'opportunity'
+        verbose_name_plural = 'opportunities'
+
 
 class Lead(models.Model):
     STATUS = (
@@ -123,6 +127,11 @@ class Lead(models.Model):
     state = models.CharField('State', max_length=50, blank=True, null=True)
     postal_code = models.CharField('Postal Code', max_length=50)
 
+    class Meta:
+        db_table = 'lead'
+        verbose_name_plural = 'leads'
+
+
 class Account(models.Model):
     ACCOUNT_TYPE = (
         ('--None--', 'None'),
@@ -166,6 +175,10 @@ class Account(models.Model):
     country = models.CharField('Country', max_length=100, choices=COUNTRY)
     shipping_address = models.CharField('Shipping Address', max_length=50)
 
+    class Meta:
+        db_table = 'account'
+        verbose_name_plural = 'accounts'
+
 
 class Task(models.Model):
 
@@ -189,6 +202,11 @@ class Task(models.Model):
     comment = models.CharField('Comments', max_length=200)
     priority = models.CharField('Priority', max_length=50, choices=PRIORITY)
     status = models.CharField('Status', max_length=50, choices=STATUS)
+
+    class Meta:
+        db_table = 'task'
+        verbose_name_plural = 'tasks'
+
 
 class Contact(models.Model):
     SALUTATION = (
@@ -228,7 +246,12 @@ class Contact(models.Model):
     postal_code = models.CharField('Postal Code', max_length=50)
     country = models.CharField('Country', max_length=100, choices=COUNTRY)
 
-class case(models.Model):
+    class Meta:
+        db_table = 'contact'
+        verbose_name_plural = 'contacts'
+
+
+class CaseTicket(models.Model):
     STATUS = (
         ('--None--', '--None--'),
         ('New', 'New'),
@@ -281,3 +304,7 @@ class case(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: "
                                                                    "'+999999999'. Up to 15 digits allowed.")
     phone_number = models.CharField('Phone Number', validators=[phone_regex], blank=True)
+
+    class Meta:
+        db_table = 'case_ticket'
+        verbose_name_plural = 'case_tickets'
