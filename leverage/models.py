@@ -55,6 +55,9 @@ class Opportunity(models.Model):
         db_table = 'opportunity'
         verbose_name_plural = 'opportunities'
 
+    def __str__(self):
+        return self.opportunity_name
+
 
 class Lead(models.Model):
     STATUS = (
